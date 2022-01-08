@@ -1,12 +1,13 @@
 import { Button, MenuItem, TextField } from '@material-ui/core'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import "./Home.css"
 import Categories from '../../Data/Catagory'
+import  ErrorMessage  from '../../components/ErrorMessage/ErrorMessage'
 
 export const Home = ({ name, setName, fetchQuestions }) => {
-    const [category, setCategory] = useState(" ")
-    const [difficulty, setdifficulty] = useState(" ")
+    const [category, setCategory] = useState("")
+    const [difficulty, setdifficulty] = useState("")
     const [error, setError] = useState(false)
 
     const navigate = useNavigate();
@@ -18,24 +19,25 @@ export const Home = ({ name, setName, fetchQuestions }) => {
         } else {
             setError(false)
             fetchQuestions(category, difficulty)
-            navigate.push('/quiz')
+            navigate("/quiz")
         }
     }
-
 
     return (
         <>
             <div className='content'>
                 <div className='settings'>
                     <span style={{ fontSize: 25 }}>Quiz settings</span>
-
                     <div className="setting_select">
+
+                        {error ? <ErrorMessage/> : ""}
+
                         <TextField
                             label='Enter Your Name'
                             variant='outlined'
                             style={{ marginBottom: '3%' }}
                             onChange={(e) => setName(e.target.value)}
-                        // value={name}
+                            // value={name}
                         />
                         <TextField
                             select
@@ -46,9 +48,9 @@ export const Home = ({ name, setName, fetchQuestions }) => {
                             value={category}
                         >
                             {
-                                Categories.map((Catagory) => (
-                                    <MenuItem key={Catagory.category} value={Catagory.value}>
-                                        {Catagory.category}
+                                Categories.map((value) => (
+                                    <MenuItem key={value.category} value={value.value}>
+                                        {value.category}
                                     </MenuItem>
                                 ))
                             }</TextField>
@@ -59,7 +61,7 @@ export const Home = ({ name, setName, fetchQuestions }) => {
                             variant='outlined'
                             style={{ marginBottom: '4%' }}
                             onChange={(e) => setdifficulty(e.target.value)}
-                        // value={difficulty}
+                            value={difficulty}
                         >
                             <MenuItem key='Easy' value='Easy'>Easy</MenuItem>
                             <MenuItem key='Medium' value='Medium'>Medium</MenuItem>
