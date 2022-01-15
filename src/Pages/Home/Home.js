@@ -18,7 +18,7 @@ export const Home = ({ name, setName, fetchQuestions }) => {
             return
         } else {
             setError(false)
-            fetchQuestions(category, difficulty)
+            fetchQuestions(category, difficulty) 
             navigate("/quiz")
         }
     }
